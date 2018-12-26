@@ -1,0 +1,191 @@
+import React from 'react';
+import { connect } from 'react-redux';
+import {
+    Button, Row, Col, Grid, Jumbotron, Media,
+    ButtonToolbar, ButtonGroup, Glyphicon, Alert
+} from 'react-bootstrap';
+import { bindActionCreators } from 'redux';
+import AddToCart from '../actions/userclicktocart';
+import removeFromCart from '../actions/removeItemfromCart';
+import inc_item_in_cart from '../actions/inc_item';
+import dec_item_in_cart from '../actions/dec_item';
+
+class ProductContainer extends React.Component {
+
+    //not using this style
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: false,
+            call: ""
+        };
+
+        this.renderUser = this.renderUser.bind(this);
+        this.renderCart = this.renderCart.bind(this);
+        this.fun = this.fun.bind(this);
+        this.f1 = this.f1.bind(this);
+    }
+    style = {
+
+        width: 600,
+        height: 300,
+        backgroundColor: 'lightblue',
+        margin: 200
+    }
+    style2 = {
+        width: 100,
+        height: 100,
+        backgroundColor: 'gray',
+        display: 'inline-block',
+        margin: 30
+
+    }
+    btnstyle = {
+        margin: 15
+    }
+
+    f1(u) {
+        this.setState({
+            isLoading: false,
+
+        });
+        this.props.addToCart(u);
+    }
+    fun(u) {
+        this.setState({
+            isLoading: true
+        })
+        setTimeout(() => {
+            this.f1(u)
+        }, 500)
+
+
+
+        console.log('hello friends');
+
+        //  this.props.addToCart(u);
+    }
+    renderUser() {
+        const isLoading = this.state.isLoading;
+        return this.props.movie_users.map((u) => {
+            return (
+                <div style={this.style2} key={u.id}>
+                    {u.movie}
+                    <br></br>
+                    <Button style={this.btnstyle} bsStyle="danger" bsSize="small" disabled={isLoading} onClick={() => !isLoading ? this.fun(u) : null}>{isLoading ? 'ADDING...' : 'ADD'}</Button>
+                </div>
+            )
+        })
+    }
+    renderCart() {
+
+        console.log('length issssssssssssssssssssssss' + this.props.cart_items.length);
+
+        return this.props.cart_items.map((u) => {
+            return (
+                <div key={u.id} style={{ margin: 10, width: 200, height: 200, paddingRight: 20, paddingLeft: 0 }}>
+                    <Media>
+                        <Media.Left>
+                            <img class="border border-dark" width={80} height={80} style={{ padding: 0, margin: 20 }} src="/dhoni.png" alt="dhoni" />
+                        </Media.Left>
+                        <Media.Body>
+                            <Media.Heading>
+                                {u.movie}
+                            </Media.Heading>
+                            <p>
+                                price :10rs
+                            </p>
+                        </Media.Body>
+                    </Media>
+                    <div>
+                        <ButtonToolbar>
+                            <ButtonGroup>
+
+                                <Button class="border border-danger" onClick={() => this.props.dec_item(u)}>
+                                    <Glyphicon glyph="minus" />
+                                </Button>
+
+                                <Button disabled={true}>{u.count}
+                                </Button>
+
+                                <Button class="border border-danger" onClick={() => this.props.inc_item(u)}>
+                                    <Glyphicon glyph="plus" />
+                                </Button>
+
+                            </ButtonGroup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <Button bsStyle="danger" bsSize="small" onClick={() => this.props.removeItem(u)}>
+                                remove
+                            </Button>
+                        </ButtonToolbar>
+
+
+                    </div>
+
+
+
+                </div>
+            )
+        })
+
+        return null;
+
+
+    }
+
+    render() {
+        return (
+
+            <Grid class="border border-dark" responsive fluid >
+
+                <Row responsive>
+                    <Col xs={3} md={3} responsive fluid>
+
+                        <Jumbotron >
+                            <Alert style={{ textAlign: 'center',width:200 }} bsStyle="danger">cart</Alert>
+                            <p >{this.renderCart()}</p>
+
+                        </Jumbotron>
+                    </Col>
+                    <Col xs={6} md={6} responsive>
+                        <Jumbotron>
+
+                            {this.renderUser()}
+                        </Jumbotron>
+                    </Col>
+                    <Col xs={3} md={3} responsive>
+                        <Jumbotron>
+                            <h1>Hello, world! hhhhhh &nbsp;hhhhh are you</h1>
+                            <p>
+
+                            </p>
+                            <p>
+                                <Button bsStyle="primary">Learn more</Button>
+                            </p>
+                        </Jumbotron>
+
+                    </Col>
+                </Row>
+            </Grid>
+        );
+
+    }
+}
+
+
+function converstoretoprops(store) {
+    return ({
+        movie_users: store.movies,
+        cart_items: store.cart
+    })
+}
+
+function mapPropsToActionAndDespatchThem(dispatch) {
+    return bindActionCreators({
+        addToCart: AddToCart,
+        removeItem: removeFromCart,
+        inc_item: inc_item_in_cart,
+        dec_item: dec_item_in_cart
+
+    }, dispatch)
+}
+export default connect(converstoretoprops, mapPropsToActionAndDespatchThem)(ProductContainer);

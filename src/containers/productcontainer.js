@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
     Button, Row, Col, Grid, Jumbotron, Media,
-    ButtonToolbar, ButtonGroup, Glyphicon, Alert
+    ButtonToolbar, ButtonGroup, Glyphicon, Alert, Navbar, NavItem, Image, Nav, NavDropdown, MenuItem
 } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import AddToCart from '../actions/userclicktocart';
 import removeFromCart from '../actions/removeItemfromCart';
 import inc_item_in_cart from '../actions/inc_item';
 import dec_item_in_cart from '../actions/dec_item';
+import '../styles.css';
 
 class ProductContainer extends React.Component {
 
@@ -134,38 +135,81 @@ class ProductContainer extends React.Component {
 
     render() {
         return (
+            <div>
 
-            <Grid class="border border-dark" responsive fluid >
 
-                <Row responsive>
-                    <Col xs={3} md={3} responsive fluid>
+                <nav class="navbar navbar-expand-sm bg-danger navbar-dark sticky-top">
 
-                        <Jumbotron >
-                            <Alert style={{ textAlign: 'center',width:200 }} bsStyle="danger">cart</Alert>
-                            <p >{this.renderCart()}</p>
 
-                        </Jumbotron>
-                    </Col>
-                    <Col xs={6} md={6} responsive>
-                        <Jumbotron>
+                    {/*<img src="dhoni.png" alt="logo" style={{width:40,margin:10}} class="rounded-circle" />*/}
 
-                            {this.renderUser()}
-                        </Jumbotron>
-                    </Col>
-                    <Col xs={3} md={3} responsive>
-                        <Jumbotron>
-                            <h1>Hello, world! hhhhhh &nbsp;hhhhh are you</h1>
-                            <p>
 
-                            </p>
-                            <p>
-                                <Button bsStyle="primary">Learn more</Button>
-                            </p>
-                        </Jumbotron>
+                    {/* sample comment */}
 
-                    </Col>
-                </Row>
-            </Grid>
+                    <ul class="navbar-nav " >
+                        <li class="nav-item active" style={{ marginRight: 30 }} >
+                            <a class="nav-link" >KIT</a>
+                        </li>
+
+                    </ul>
+                    <form class="form-inline " action="" >
+
+                        <input class="form-control col-sm-8 mr-sm-3 " type="text" placeholder="Search" />
+
+                        <button class="btn btn-primary" type="submit">Search</button>
+
+                    </form>
+
+
+                    <ul class="navbar-nav ml-auto" >
+                        <li class="nav-item active " >
+                            <a class="nav-link" >Signin</a>
+                        </li>
+                        <li class="nav-item active" >
+                            <a class="nav-link" >Register</a>
+                        </li>
+
+                    </ul>
+
+                </nav>
+
+
+
+
+
+
+                <Grid class="border border-dark" responsive fluid >
+
+                    <Row responsive>
+                        <Col xs={3} md={3} responsive fluid>
+
+                            <Jumbotron >
+                                <Alert style={{ textAlign: 'center', width: 200 }} bsStyle="danger">cart</Alert>
+                                <p >{this.renderCart()}</p>
+
+                            </Jumbotron>
+                        </Col>
+                        <Col xs={6} md={6} responsive>
+                            <Jumbotron>
+
+                                {this.renderUser()}
+                            </Jumbotron>
+                        </Col>
+                        <Col xs={3} md={3} responsive>
+                            <Jumbotron>
+                                <h1>Hello, world! hhhhhh &nbsp;hhhhh are you</h1>
+                                <p>
+
+                                </p>
+                                <p>
+                                    <Button bsStyle="primary">Learn more</Button>
+                                </p>
+                            </Jumbotron>
+
+                        </Col>
+                    </Row>
+                </Grid>
+            </div>
         );
 
     }

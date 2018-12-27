@@ -10,15 +10,17 @@ import removeFromCart from '../actions/removeItemfromCart';
 import inc_item_in_cart from '../actions/inc_item';
 import dec_item_in_cart from '../actions/dec_item';
 import userSearch from '../actions/user_search';
+import ChangeState from '../actions/change_state';
+import ChangeStateT from '../actions/change_state_t';
 import '../styles.css';
 
 class ProductContainer extends React.Component {
 
     //not using this style
-    constructor(props) { 
+    constructor(props) {
         super(props);
         this.state = {
-            isLoading: false,
+            //isLoading: false,
             call: ""
         };
 
@@ -43,110 +45,110 @@ class ProductContainer extends React.Component {
 
     }
     btnstyle = {
-        margin: 15
+        margin: 15,
+        float: 'right'
     }
 
     f1(u) {
-        this.setState({
+        /*this.setState({
             isLoading: false,
 
-        });
+        });*/
+        this.props.changeState(u);
         this.props.addToCart(u);
     }
     fun(u) {
-        this.setState({
+       /* this.setState({
             isLoading: true
-        })
+        })*/
+        this.props.changeStateT(u);
         setTimeout(() => {
             this.f1(u)
         }, 500)
 
 
 
-        console.log('hello friends');
+        // console.log('hello friends');
 
         //  this.props.addToCart(u);
     }
     renderUser() {
-        const isLoading = this.state.isLoading;
-        if(this.props.my_search_results===null)
-        {
+       // const isLoading = this.state.isLoading;
+        if (this.props.my_search_results === null) {
             return this.props.movie_users.map((u) => {
                 return (
-                    <div style={this.style2} key={u.id}>
-                        {u.movie}
-                        <br></br>
-                        <Button style={this.btnstyle} bsStyle="danger" bsSize="small" disabled={isLoading} onClick={() => !isLoading ? this.fun(u) : null}>{isLoading ? 'ADDING...' : 'ADD'}</Button>
+                    <div class="heroes border border-dark" key={u.id}>
+                        <p class="heroes_title" >{u.movie}
+                        </p>
+                        
+
+                        <div class="btn-group" style={{ display: 'inline' }}>
+                            &#8377;{u.price}
+                            <button style={this.btnstyle} class="btn btn-danger btn-sm" disabled={u.isLoading} onClick={() => !u.isLoading ? this.fun(u) : null}>{u.isLoading ? 'ADDING...' : 'ADD'}</button>
+                        </div>
+
                     </div>
                 )
             })
 
         }
-        else{
+        else {
             return this.props.movie_users.map((u) => {
-                console.log(u.name + this.props.my_search_results.name);
-                if(u.movie===this.props.my_search_results.name){
+                //console.log(u.name + this.props.my_search_results.name);
+                if (u.movie === this.props.my_search_results.name) {
                     return (
-                        <div style={this.style2} key={u.id}>
-                            {u.movie}
-                            <br></br>
-                            <Button style={this.btnstyle} bsStyle="danger" bsSize="small" disabled={isLoading} onClick={() => !isLoading ? this.fun(u) : null}>{isLoading ? 'ADDING...' : 'ADD'}</Button>
+                        <div class="heroes" key={u.id}>
+                            <p class="heroes_title">{u.movie}
+                                <br></br>
+                                &#8377;{u.price}
+                            </p>
+
+                            <button style={this.btnstyle} class="btn btn-danger btn-sm" disabled={u.isLoading} onClick={() => !u.isLoading ? this.fun(u) : null}>{u.isLoading ? 'ADDING...' : 'ADD'}</button>
                         </div>
                     )
                 }
                 return null;
-                
+
             })
 
         }
-       
+
     }
     renderCart() {
 
-        console.log('length issssssssssssssssssssssss' + this.props.cart_items.length);
+        //console.log('length issssssssssssssssssssssss' + this.props.cart_items.length);
 
         return this.props.cart_items.map((u) => {
             return (
-                <div key={u.id} style={{ margin: 10, width: 200, height: 200, paddingRight: 20, paddingLeft: 0 }}>
-                    <Media>
-                        <Media.Left>
-                            <img class="border border-dark" width={80} height={80} style={{ padding: 0, margin: 20 }} src="/dhoni.png" alt="dhoni" />
-                        </Media.Left>
-                        <Media.Body>
-                            <Media.Heading>
-                                {u.movie}
-                            </Media.Heading>
-                            <p>
-                                price :10rs
-                            </p>
-                        </Media.Body>
-                    </Media>
-                    <div>
-                        <ButtonToolbar>
-                            <ButtonGroup>
+                <div key={u.id} class="container cart responsive">
 
-                                <Button class="border border-danger" onClick={() => this.props.dec_item(u)}>
-                                    <Glyphicon glyph="minus" />
-                                </Button>
 
-                                <Button disabled={true}>{u.count}
-                                </Button>
+                    <img class="border border-dark responsive" height="100" width="100" style={{ marginTop: 10 }} src="/dhoni.png" alt="dhoni" />
+                    <p class="cart_item_name">{u.movie}
+                        <br></br>
+                        &#8377;{u.total_items_value}
+                    </p>
 
-                                <Button class="border border-danger" onClick={() => this.props.inc_item(u)}>
-                                    <Glyphicon glyph="plus" />
-                                </Button>
+                    <div class="cart-menu btn-toolbar btn-sm responsive">
+                        <div class="btn-group mr-4  ">
+                            <button type="button" class="btn btn-danger btn-sm" onClick={() => this.props.dec_item(u)}>
+                                {/* <Glyphicon glyph="minus" /> */}
+                                <span class="glyphicon glyphicon-minus btn-sm"></span>
+                            </button>
 
-                            </ButtonGroup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <Button bsStyle="danger" bsSize="small" onClick={() => this.props.removeItem(u)}>
+                            <button type="button" disabled={true}>{u.count}
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" onClick={() => this.props.inc_item(u)}>
+                                {/* <Glyphicon glyph="plus" /> */}
+                                <span class="glyphicon glyphicon-plus btn-sm"></span>
+                            </button>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-danger btn-sm" onClick={() => this.props.removeItem(u)}>
                                 remove
-                            </Button>
-                        </ButtonToolbar>
-
-
+                            </button>
+                        </div>
                     </div>
-
-
-
                 </div>
             )
         })
@@ -155,10 +157,9 @@ class ProductContainer extends React.Component {
 
 
     }
-    search(e)
-    {
-        e.preventDefault();
-        var obj={'name':document.getElementById('query').value};
+    search(e) {
+        e.preventDefault();//this is for preventing page reloading 
+        var obj = { 'name': document.getElementById('query').value };
         this.props.search_query(obj);
     }
 
@@ -167,13 +168,7 @@ class ProductContainer extends React.Component {
             <div>
 
 
-                <nav class="navbar navbar-expand-sm bg-danger navbar-dark sticky-top">
-
-
-                    {/*<img src="dhoni.png" alt="logo" style={{width:40,margin:10}} class="rounded-circle" />*/}
-
-
-                    {/* sample comment */}
+                <nav class="navbar navbar-expand-sm bg-danger navbar-dark sticky-top" >
 
                     <ul class="navbar-nav " >
                         <li class="nav-item active" style={{ marginRight: 30 }} >
@@ -183,17 +178,26 @@ class ProductContainer extends React.Component {
                     </ul>
                     <form class="form-inline " action="" >
 
-                        <input class="form-control col-sm-8 mr-sm-3 " type="text" placeholder="Search" id="query"/>
+                        <input class="form-control col-sm-8 mr-sm-3 " type="text" placeholder="Search" id="query" />
 
-                        <button class="btn btn-primary" type="submit" onClick={(e)=>this.search(e)}>
+                        <button class="btn btn-primary" type="submit" onClick={(e) => this.search(e)}>
                             Search</button>
 
                     </form>
+                    <ul class="navbar-nav items">
+                    <li class="nav-item active " >
+                    <a class="nav-link" >Heroes</a>
+                    </li>
+                    <li class="nav-item active">
+                    <a class="nav-link">Players</a>
+                    </li>
+                    
+                    </ul>
 
 
                     <ul class="navbar-nav ml-auto" >
                         <li class="nav-item active " >
-                            <a class="nav-link" >Signin</a>
+                            <a class="nav-link"  >Signin</a>
                         </li>
                         <li class="nav-item active" >
                             <a class="nav-link" >Register</a>
@@ -208,37 +212,30 @@ class ProductContainer extends React.Component {
 
 
 
-                <Grid class="border border-dark" responsive fluid >
+                <div class="container" responsive fluid >
 
-                    <Row responsive class="hello">
-                    <Col xs={3} md={2} responsive>
-                            <Jumbotron>
-                               
-                                <p>
-                                    <Button bsStyle="primary">Learn more</Button>
-                                </p>
-                            </Jumbotron>
+                    <div class="row">
 
-                        </Col>
 
-                        <Col xs={6} md={6} responsive>
-                            <Jumbotron>
+                        <div class="mainbody col-sm-6 col-md-7 col-lg-8" >
+                            <div class="jumbotron" style={{}}>
 
-                                {this.renderUser()}
-                            </Jumbotron>
-                        </Col>
-                        
-                        <Col xs={3} md={4} responsive fluid>
+                                <p display="inline-block">{this.renderUser()}</p>
+                            </div>
+                        </div>
 
-                            <Jumbotron >
-                                {/*<Alert style={{ textAlign: 'center', width: 200 }} bsStyle="danger">cart</Alert>*/}
+                        <div class="rightside col-sm-6 col-md-5 col-lg-4">
+
+                            <div class="jumbotron">
+                              
                                 <button type="button" class="btn btn-dark">CART</button>
                                 <p >{this.renderCart()}</p>
 
-                            </Jumbotron>
-                        </Col>
-                    </Row>
-                </Grid>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         );
 
@@ -250,7 +247,8 @@ function converstoretoprops(store) {
     return ({
         movie_users: store.movies,
         cart_items: store.cart,
-        my_search_results:store.result
+        my_search_results: store.result
+    
     })
 }
 
@@ -260,7 +258,10 @@ function mapPropsToActionAndDespatchThem(dispatch) {
         removeItem: removeFromCart,
         inc_item: inc_item_in_cart,
         dec_item: dec_item_in_cart,
-        search_query:userSearch
+        search_query: userSearch,
+        changeState:ChangeState,
+        changeStateT:ChangeStateT
+
 
 
     }, dispatch)

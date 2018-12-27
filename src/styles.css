@@ -4,16 +4,53 @@ li{
     padding-right:10px;
     font-size:15px; 
     
+    
 }
-
-div{
-    background-color:whitesmoke
+li a{
+    font-size: 1vw;
+    
+}
+ul.items{
+    margin-left: 100px;
+}
+p.heroes_title{
+    font-size: 1vw
+}
+p.cart_item_name{
+    font-size: 1vw
+}
+div.cart{
+    background-color:whitesmoke;
+    font-size: 4vw;
+    margin:10px;
    
+}
+div.cart-menu{
+    text-align: center;
+    width:100%;
+    padding:0 20px;
+    
+}
+div.heroes{
+    background-color: gray;
+    width:10vw;
+    height:10vw;
+    
+    display: inline-block;
+    margin:15px;
+    
+}
+img.responsive{
+    
+        width:50%;
+        height: auto;
+      
 }
 
 nav{
     margin-bottom:50px;
     margin-top: 0px;
+    position: fixed;
 }
 
 input.form-control{
@@ -21,8 +58,17 @@ input.form-control{
 width:300px;
 }
 
-.hello{
-    
+@media  (min-width:1200px) {
+    .container  .row{
+        column-count: 2
+    }
 
+}
+
+@media ( max-width:1200px){
+  
+    .container .row{
+        column-count: 1
+    }
 }
 

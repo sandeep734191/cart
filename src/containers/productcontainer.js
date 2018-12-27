@@ -9,12 +9,13 @@ import AddToCart from '../actions/userclicktocart';
 import removeFromCart from '../actions/removeItemfromCart';
 import inc_item_in_cart from '../actions/inc_item';
 import dec_item_in_cart from '../actions/dec_item';
+import userSearch from '../actions/user_search';
 import '../styles.css';
 
 class ProductContainer extends React.Component {
 
     //not using this style
-    constructor(props) {
+    constructor(props) { 
         super(props);
         this.state = {
             isLoading: false,
@@ -68,15 +69,37 @@ class ProductContainer extends React.Component {
     }
     renderUser() {
         const isLoading = this.state.isLoading;
-        return this.props.movie_users.map((u) => {
-            return (
-                <div style={this.style2} key={u.id}>
-                    {u.movie}
-                    <br></br>
-                    <Button style={this.btnstyle} bsStyle="danger" bsSize="small" disabled={isLoading} onClick={() => !isLoading ? this.fun(u) : null}>{isLoading ? 'ADDING...' : 'ADD'}</Button>
-                </div>
-            )
-        })
+        if(this.props.my_search_results===null)
+        {
+            return this.props.movie_users.map((u) => {
+                return (
+                    <div style={this.style2} key={u.id}>
+                        {u.movie}
+                        <br></br>
+                        <Button style={this.btnstyle} bsStyle="danger" bsSize="small" disabled={isLoading} onClick={() => !isLoading ? this.fun(u) : null}>{isLoading ? 'ADDING...' : 'ADD'}</Button>
+                    </div>
+                )
+            })
+
+        }
+        else{
+            return this.props.movie_users.map((u) => {
+                console.log(u.name + this.props.my_search_results.name);
+                if(u.movie===this.props.my_search_results.name){
+                    return (
+                        <div style={this.style2} key={u.id}>
+                            {u.movie}
+                            <br></br>
+                            <Button style={this.btnstyle} bsStyle="danger" bsSize="small" disabled={isLoading} onClick={() => !isLoading ? this.fun(u) : null}>{isLoading ? 'ADDING...' : 'ADD'}</Button>
+                        </div>
+                    )
+                }
+                return null;
+                
+            })
+
+        }
+       
     }
     renderCart() {
 
@@ -132,6 +155,12 @@ class ProductContainer extends React.Component {
 
 
     }
+    search(e)
+    {
+        e.preventDefault();
+        var obj={'name':document.getElementById('query').value};
+        this.props.search_query(obj);
+    }
 
     render() {
         return (
@@ -154,9 +183,10 @@ class ProductContainer extends React.Component {
                     </ul>
                     <form class="form-inline " action="" >
 
-                        <input class="form-control col-sm-8 mr-sm-3 " type="text" placeholder="Search" />
+                        <input class="form-control col-sm-8 mr-sm-3 " type="text" placeholder="Search" id="query"/>
 
-                        <button class="btn btn-primary" type="submit">Search</button>
+                        <button class="btn btn-primary" type="submit" onClick={(e)=>this.search(e)}>
+                            Search</button>
 
                     </form>
 
@@ -180,32 +210,32 @@ class ProductContainer extends React.Component {
 
                 <Grid class="border border-dark" responsive fluid >
 
-                    <Row responsive>
-                        <Col xs={3} md={3} responsive fluid>
-
-                            <Jumbotron >
-                                <Alert style={{ textAlign: 'center', width: 200 }} bsStyle="danger">cart</Alert>
-                                <p >{this.renderCart()}</p>
-
+                    <Row responsive class="hello">
+                    <Col xs={3} md={2} responsive>
+                            <Jumbotron>
+                               
+                                <p>
+                                    <Button bsStyle="primary">Learn more</Button>
+                                </p>
                             </Jumbotron>
+
                         </Col>
+
                         <Col xs={6} md={6} responsive>
                             <Jumbotron>
 
                                 {this.renderUser()}
                             </Jumbotron>
                         </Col>
-                        <Col xs={3} md={3} responsive>
-                            <Jumbotron>
-                                <h1>Hello, world! hhhhhh &nbsp;hhhhh are you</h1>
-                                <p>
+                        
+                        <Col xs={3} md={4} responsive fluid>
 
-                                </p>
-                                <p>
-                                    <Button bsStyle="primary">Learn more</Button>
-                                </p>
+                            <Jumbotron >
+                                {/*<Alert style={{ textAlign: 'center', width: 200 }} bsStyle="danger">cart</Alert>*/}
+                                <button type="button" class="btn btn-dark">CART</button>
+                                <p >{this.renderCart()}</p>
+
                             </Jumbotron>
-
                         </Col>
                     </Row>
                 </Grid>
@@ -219,7 +249,8 @@ class ProductContainer extends React.Component {
 function converstoretoprops(store) {
     return ({
         movie_users: store.movies,
-        cart_items: store.cart
+        cart_items: store.cart,
+        my_search_results:store.result
     })
 }
 
@@ -228,7 +259,9 @@ function mapPropsToActionAndDespatchThem(dispatch) {
         addToCart: AddToCart,
         removeItem: removeFromCart,
         inc_item: inc_item_in_cart,
-        dec_item: dec_item_in_cart
+        dec_item: dec_item_in_cart,
+        search_query:userSearch
+
 
     }, dispatch)
 }

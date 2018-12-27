@@ -12,7 +12,8 @@ div{
 }
 
 nav{
-    margin-bottom:50px
+    margin-bottom:50px;
+    margin-top: 0px;
 }
 
 input.form-control{
@@ -20,4 +21,8 @@ input.form-control{
 width:300px;
 }
 
+.hello{
+    
+
+}
 

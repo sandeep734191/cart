@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 
 import ProductContainer from '../containers/productcontainer';
+import MenuContainer from '../containers/menucontainer';
 
 class MainComponent extends React.Component {
     state = {  }
@@ -11,6 +12,8 @@ class MainComponent extends React.Component {
         return (<div>
             <br></br>
             <ProductContainer></ProductContainer>
+            <hr></hr>
+            <MenuContainer></MenuContainer>
             </div>  );
     }
 }

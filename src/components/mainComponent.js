@@ -1,21 +1,19 @@
 import React from 'react';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
 import ProductContainer from '../containers/productcontainer';
 import MenuContainer from '../containers/menucontainer';
 
 class MainComponent extends React.Component {
-    state = {  }
-    
-    render() { 
+    state = {}
+
+    render() {
         console.log("in main component");
-        return (<div>
-            <br></br>
-            <ProductContainer></ProductContainer>
-            <hr></hr>
-            <MenuContainer></MenuContainer>
-            </div>  );
+        return (
+            <div>
+                <MenuContainer></MenuContainer>
+            </div>);
     }
 }
- 
+
 export default MainComponent;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link, HashRouter } from 'react-router-dom';
 import {
     Button, Row, Col, Grid, Jumbotron, Media,
     ButtonToolbar, ButtonGroup, Glyphicon, Alert, Navbar, NavItem, Image, Nav, NavDropdown, MenuItem
@@ -58,9 +59,9 @@ class ProductContainer extends React.Component {
         this.props.addToCart(u);
     }
     fun(u) {
-       /* this.setState({
-            isLoading: true
-        })*/
+        /* this.setState({
+             isLoading: true
+         })*/
         this.props.changeStateT(u);
         setTimeout(() => {
             this.f1(u)
@@ -73,14 +74,14 @@ class ProductContainer extends React.Component {
         //  this.props.addToCart(u);
     }
     renderUser() {
-       // const isLoading = this.state.isLoading;
+        // const isLoading = this.state.isLoading;
         if (this.props.my_search_results === null) {
             return this.props.movie_users.map((u) => {
                 return (
                     <div class="heroes border border-dark" key={u.id}>
                         <p class="heroes_title" >{u.movie}
                         </p>
-                        
+
 
                         <div class="btn-group" style={{ display: 'inline' }}>
                             &#8377;{u.price}
@@ -185,23 +186,25 @@ class ProductContainer extends React.Component {
 
                     </form>
                     <ul class="navbar-nav items">
-                    <li class="nav-item active " >
-                    <a class="nav-link" >Heroes</a>
-                    </li>
-                    <li class="nav-item active">
-                    <a class="nav-link">Players</a>
-                    </li>
-                    
+                        <li class="nav-item active " >
+                            <a class="nav-link" >Heroes</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link">Players</a>
+                        </li>
+
                     </ul>
 
 
-                    <ul class="navbar-nav ml-auto" >
-                        <li class="nav-item active " >
-                            <a class="nav-link"  >Signin</a>
-                        </li>
-                        <li class="nav-item active" >
-                            <a class="nav-link" >Register</a>
-                        </li>
+                    <ul class="navbar-nav ml-auto list-unstyled"  >
+                        <HashRouter>
+                            <ul style={{listStyleType:'none',display:'inline-block'}}>
+                                <li class="nav-item  "><Link to="/">hello</Link></li>
+                                <li class="nav-item " ><Link to="/login">Sign in</Link></li>
+                                <li class="nav-item  "><Link to="/register">Sign up</Link></li>
+                            </ul>
+                        </HashRouter>
+
 
                     </ul>
 
@@ -227,7 +230,7 @@ class ProductContainer extends React.Component {
                         <div class="rightside col-sm-6 col-md-5 col-lg-4">
 
                             <div class="jumbotron">
-                              
+
                                 <button type="button" class="btn btn-dark">CART</button>
                                 <p >{this.renderCart()}</p>
 
@@ -248,7 +251,7 @@ function converstoretoprops(store) {
         movie_users: store.movies,
         cart_items: store.cart,
         my_search_results: store.result
-    
+
     })
 }
 
@@ -259,8 +262,8 @@ function mapPropsToActionAndDespatchThem(dispatch) {
         inc_item: inc_item_in_cart,
         dec_item: dec_item_in_cart,
         search_query: userSearch,
-        changeState:ChangeState,
-        changeStateT:ChangeStateT
+        changeState: ChangeState,
+        changeStateT: ChangeStateT
 
 
 

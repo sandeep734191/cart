@@ -34,6 +34,7 @@ class LoginComponent extends React.Component {
         //this.props.userActions();
         const {dispatch}=this.props;
         dispatch(userActions.login(this.state.username,this.state.password));
+    
         let path = `/product`;
         this.props.history.push(path);
         
@@ -53,7 +54,7 @@ class LoginComponent extends React.Component {
         
         return (
             <div style={{ marginLeft: 200, marginBottom: 200, marginTop: 100 }}>
-            <form class=""  >
+            <form class="" onSubmit='/product' >
                 <div class="form-group">
                     <label for="email">Email address:</label>
                     <input type="email" class="form-control" id="email" onChange={this.captureName} />
@@ -67,8 +68,8 @@ class LoginComponent extends React.Component {
 
                 </div>
                 <div class="btn-toolbar">
-                    <button type="submit" id="myButton" class="btn btn-primary" formAction="/" onClick={(e)=>this.userdetails(e)} >Home</button>
-                    <button type="submit" class="btn btn-primary" formAction="/product">Submit</button>
+                    <button type="submit" id="myButton" class="btn btn-primary"  >Home</button>
+                    <button type="submit" class="btn btn-primary"  onClick={(e)=>this.userdetails(e)}>Submit</button>
 
 
 

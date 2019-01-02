@@ -14,6 +14,7 @@ import userSearch from '../actions/user_search';
 import ChangeState from '../actions/change_state';
 import ChangeStateT from '../actions/change_state_t';
 import '../styles.css';
+import { userActions } from '../actions/useractions';
 
 class ProductContainer extends React.Component {
 
@@ -29,6 +30,7 @@ class ProductContainer extends React.Component {
         this.renderCart = this.renderCart.bind(this);
         this.fun = this.fun.bind(this);
         this.f1 = this.f1.bind(this);
+        this.logout=this.logout.bind(this);
     }
     style = {
 
@@ -78,7 +80,7 @@ class ProductContainer extends React.Component {
         if (this.props.my_search_results === null) {
             return this.props.movie_users.map((u) => {
                 return (
-                    <div class="heroes border border-dark" key={u.id}>
+                    /*<div class="heroes border border-dark" key={u.id}>
                         <p class="heroes_title" >{u.movie}
                         </p>
 
@@ -88,6 +90,16 @@ class ProductContainer extends React.Component {
                             <button style={this.btnstyle} class="btn btn-danger btn-sm" disabled={u.isLoading} onClick={() => !u.isLoading ? this.fun(u) : null}>{u.isLoading ? 'ADDING...' : 'ADD'}</button>
                         </div>
 
+                    </div>*/
+
+                    <div class="heroes card" key={u.id}>
+                        <img src="/new.JPG" alt="" heigth="100" width="100" class="card-img-top" />
+                        <div class="card-body">
+                            <h5> {u.movie}</h5>
+                            <h5> &#8377;{u.price}</h5>
+                            <button class="btn btn-danger" disabled={u.isLoading} onClick={() => !u.isLoading ? this.fun(u) : null}><i class="fa fa-cart-plus" area-hidden="true"></i>
+                                {u.isLoading ? 'ADDING...' : 'ADD'}</button>
+                        </div>
                     </div>
                 )
             })
@@ -124,7 +136,7 @@ class ProductContainer extends React.Component {
                 <div key={u.id} class="container cart responsive">
 
 
-                    <img class="border border-dark responsive" height="100" width="100" style={{ marginTop: 10 }} src="/dhoni.png" alt="dhoni" />
+                    <img class="border border-dark responsive" height={100} width={100} style={{ marginTop: 10 }} src="/dhoni.png" alt="dhoni" />
                     <p class="cart_item_name">{u.movie}
                         <br></br>
                         &#8377;{u.total_items_value}
@@ -163,20 +175,29 @@ class ProductContainer extends React.Component {
         var obj = { 'name': document.getElementById('query').value };
         this.props.search_query(obj);
     }
-    customUser(){
-        console.log(this.props.credentials.isAuthenticated+'authented')
-        if(this.props.credentials.isAuthenticated){
+    logout(dispatch){
+        //const {dispatch}=this.props;
+        //dispatch(userActions.logout())
+        this.props.loggout()
+       
+    }
+    customUser() {
+        console.log(this.props.credentials.isAuthenticated + 'authented')
+        if (this.props.credentials.isAuthenticated) {
             alert('ppp')
-                return (  <h3>{this.props.credentials.user}</h3>)
-        }else{
+            return (
+                <div><h3>{this.props.credentials.user}</h3>
+                 <li onClick={()=>{this.logout(this.props.dispatch)}}>   <Link to='/logout'>logout</Link></li>
+                </div>)
+        } else {
             alert('jjj')
-                return (
-                   <div>
-                        
-                    <li class="nav-item " ><Link to="/login">Sign in</Link></li>
-                    <li class="nav-item  "><Link to="/register">Sign up</Link></li>
-                    </div>
-                )
+            return (
+                <div >
+
+                    <li class="nav-item " ><Link to="/login"><p style={{color:'white'}}>Sign in</p></Link></li>
+                    <li class="nav-item  "><Link to="/register"><p style={{color:'white'}}>Sign up</p></Link></li>
+                </div>
+            )
         }
     }
 
@@ -189,7 +210,7 @@ class ProductContainer extends React.Component {
 
                     <ul class="navbar-nav " >
                         <li class="nav-item active" style={{ marginRight: 30 }} >
-                            <a class="nav-link" >KIT</a>
+                            <a class="nav-link" ><h3>MYSTORE</h3></a>
                         </li>
 
                     </ul>
@@ -201,25 +222,15 @@ class ProductContainer extends React.Component {
                             Search</button>
 
                     </form>
-                    <ul class="navbar-nav items">
-                        <li class="nav-item active " >
-                            <a class="nav-link" >Heroes</a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link">Players</a>
-                        </li>
-
-                    </ul>
-
 
                     <ul class="navbar-nav ml-auto list-unstyled"  >
-                        <HashRouter>
-                            <ul style={{listStyleType:'none',display:'inline-block'}}>
-                                <li class="nav-item  "><Link to="/">hello</Link></li>
-                                {this.customUser()}
-                                
-                            </ul>
-                        </HashRouter>
+
+
+
+                        {this.customUser()}
+
+
+
 
 
                     </ul>
@@ -262,12 +273,13 @@ class ProductContainer extends React.Component {
 }
 
 
-function converstoretoprops(store) {
+function mapStatetoProps(store) {
     return ({
         movie_users: store.movies,
         cart_items: store.cart,
         my_search_results: store.result,
-        credentials:store.credit
+        credentials: store.credit,
+        dispatch:store.dispatch
 
     })
 }
@@ -280,10 +292,11 @@ function mapPropsToActionAndDespatchThem(dispatch) {
         dec_item: dec_item_in_cart,
         search_query: userSearch,
         changeState: ChangeState,
-        changeStateT: ChangeStateT
+        changeStateT: ChangeStateT,
+        loggout:userActions.logout
 
 
 
     }, dispatch)
 }
-export default connect(converstoretoprops, mapPropsToActionAndDespatchThem)(ProductContainer);
+export default connect(mapStatetoProps,mapPropsToActionAndDespatchThem)(ProductContainer);

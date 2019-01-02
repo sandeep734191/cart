@@ -7,12 +7,12 @@ import Bootstrap from 'bootstrap/dist/css/bootstrap.css'
 
 import App from './rootComponent/app';
 import allReducers from './reducers/combine-reducers';
-import LoginComponent from './components/logincomponent';
-import RegisterComponent from './components/registercomponent';
 import setAuthorizationToken from './actions/authorisation';
 
 
 import {userActions} from './actions/useractions';
+import LogoutComponent from './components/logoutcomponent';
+
 var jwt_decode=require('jwt-decode')
 console.log("before store creations")
 const reduxStore=createStore(
@@ -29,10 +29,11 @@ if(localStorage.jwtToken){
 ReactDOM.render(
 <Provider store={reduxStore}>
 <App></App>
+<LogoutComponent></LogoutComponent>
+
 </Provider>
     ,
     document.getElementById("root"));
     console.log("after index")
 
-//ReactDOM.render(<LoginComponent></LoginComponent>,document.getElementById('login'));
-//ReactDOM.render(<RegisterComponent></RegisterComponent>,document.getElementById('registration'));
+

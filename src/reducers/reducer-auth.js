@@ -5,6 +5,7 @@ const initialState={
 };
 
 export default (state=initialState,action={})=>{
+    console.log('reached the reducer auth');
     switch(action.type){
         case 'USERS_LOGIN_SUCCESS' :
                 console.log(action.user.user)
@@ -12,6 +13,11 @@ export default (state=initialState,action={})=>{
                         isAuthenticated:!isEmpty(action.user)
                         ,user:action.user.user
                     };
+        case 'USERS_LOGOUT':
+                    console.log('logout reducer')
+                    return {
+                        isAuthenticated:false
+                    }
         default:
         return state;
     }

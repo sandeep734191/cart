@@ -15,25 +15,25 @@ function setCurrentUser(user){
 };
 
 function login(username, password) {
-    return dispatch => {
-        dispatch(request({ username }));
+    return dispatc => {
+        dispatc(request({ username }));
         
 
         userService.login(username, password)
             .then(
                 user => { 
                     console.log('inside user action'+ user)
-                    dispatch(success(user));
+                    dispatc(success(user));
                   //  return Promise.resolve()
                     //history.push('/');
                 },
                 error => {
-                    dispatch(failure(error.toString()));
+                    dispatc(failure(error.toString()));
                     //dispatch(alertActions.error(error.toString()));
                 }
             );
     };
-    return Promise.resolve()
+    
     function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
@@ -41,6 +41,7 @@ function login(username, password) {
 }
 
 function logout() {
+    alert('logout called');
     userService.logout();
     return { type: userConstants.LOGOUT };
 }

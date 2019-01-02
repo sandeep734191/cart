@@ -12,7 +12,9 @@ switch(action.type){
         console.log("action is reveived in sub");
 
         return state - 1
-        
+    case 'USERS_LOGIN_REQUEST' :
+        console.log("user data recieved in reducer");
+        return state;
     default:
         break;
 }

@@ -163,6 +163,22 @@ class ProductContainer extends React.Component {
         var obj = { 'name': document.getElementById('query').value };
         this.props.search_query(obj);
     }
+    customUser(){
+        console.log(this.props.credentials.isAuthenticated+'authented')
+        if(this.props.credentials.isAuthenticated){
+            alert('ppp')
+                return (  <h3>{this.props.credentials.user}</h3>)
+        }else{
+            alert('jjj')
+                return (
+                   <div>
+                        
+                    <li class="nav-item " ><Link to="/login">Sign in</Link></li>
+                    <li class="nav-item  "><Link to="/register">Sign up</Link></li>
+                    </div>
+                )
+        }
+    }
 
     render() {
         return (
@@ -200,8 +216,8 @@ class ProductContainer extends React.Component {
                         <HashRouter>
                             <ul style={{listStyleType:'none',display:'inline-block'}}>
                                 <li class="nav-item  "><Link to="/">hello</Link></li>
-                                <li class="nav-item " ><Link to="/login">Sign in</Link></li>
-                                <li class="nav-item  "><Link to="/register">Sign up</Link></li>
+                                {this.customUser()}
+                                
                             </ul>
                         </HashRouter>
 
@@ -250,7 +266,8 @@ function converstoretoprops(store) {
     return ({
         movie_users: store.movies,
         cart_items: store.cart,
-        my_search_results: store.result
+        my_search_results: store.result,
+        credentials:store.credit
 
     })
 }

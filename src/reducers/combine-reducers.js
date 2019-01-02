@@ -4,6 +4,8 @@ import UserReducers from './reducer.-user';
 import reduceMaths from './reduce-arithmetic';
 import reduceCart from './reduce-cart';
 import userSearch from './reducer_usersearch';
+import auth from './reducer-auth';
+
 
 
 const allReducers = combineReducers({
@@ -11,7 +13,9 @@ const allReducers = combineReducers({
     movies:MovieReducers,
     arithmetic:reduceMaths,
     cart:reduceCart,
-    result:userSearch
+    result:userSearch,
+    credit:auth
+    
     
 })
 console.log("in combine-reducers");

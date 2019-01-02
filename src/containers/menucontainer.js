@@ -4,6 +4,7 @@ import LoginComponent from '../components/logincomponent';
 import RegisterComponent from '../components/registercomponent';
 import HelloComponent from '../components/hellocomponent';
 import ProductContainer from './productcontainer';
+import LandingComponent from '../components/LandingComponent';
 
 class MenuContainer extends React.Component {
     state = {}
@@ -14,7 +15,9 @@ class MenuContainer extends React.Component {
                 <Switch>
                     <Route path="/login" component={LoginComponent}></Route>
                     <Route path="/register" component={RegisterComponent}></Route>
-                    <Route exact path="/" component={ProductContainer}></Route>
+                    <Route path="/product" component={ProductContainer}></Route>
+                    <Route exact path="/" component={LandingComponent}></Route>
+
                 </Switch>
             </HashRouter>
 

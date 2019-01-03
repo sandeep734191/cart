@@ -29,7 +29,7 @@ if(localStorage.jwtToken){
 ReactDOM.render(
 <Provider store={reduxStore}>
 <App></App>
-<LogoutComponent></LogoutComponent>
+
 
 </Provider>
     ,
